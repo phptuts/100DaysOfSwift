@@ -14,6 +14,9 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Storm Viewer"
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
         let fm = FileManager.default
         // We can get away with force unwrapping because all iOS apps will have a resource path
         let path = Bundle.main.resourcePath!
@@ -41,6 +44,18 @@ class ViewController: UITableViewController {
         return cell
     }
 
+    // This function is called when the user selects the a row in table view
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // This get detailed view controller from the storyboard using the
+        // Detial identifier.  It actually creates one
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
+            // This sets selectedImage from the list of pictures on the view controller
+            vc.selectedImage = pictures[indexPath.row]
+            // This handles the navigation
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 
 }
 
