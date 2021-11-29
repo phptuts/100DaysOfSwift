@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UITableViewController {
     
-    var pictures = [String]()
+    var pictures = [(fileName: String, number: Int)]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,13 +23,27 @@ class ViewController: UITableViewController {
         // Because of that we can get away with this force try because the directory will always exist
         let items = try! fm.contentsOfDirectory(atPath: path)
         
-        for item in items {
-            if item.hasPrefix("nssl") {
-                pictures.append(item)
-            }
-        }
+        // Created a tuple so that I could store the file number to display and the filename
+        // I filtered out all the non jpgs
+        // I then map the filenames to the tuple and start 1
+        // I then sort everything by the number
+        self.pictures = items
+            .filter({item in item.hasPrefix("nssl")})
+            .map({ name in
+                let numName = name
+                    .replacingOccurrences(of: "nssl00", with: "")
+                    .replacingOccurrences(of: ".jpg", with: "")
+                // This should always work
+                if let fileNumber = Int(numName) {
+                    return (fileName: name, number: fileNumber - 32)
+                } else {
+                    return (fileName: name, number: 1)
+                }
+        }).sorted(by: { a, b in
+            return a.number < b.number
+        })
         
-        print(pictures)
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -39,7 +53,7 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Picture",for: indexPath)
         
-        cell.textLabel?.text = pictures[indexPath.row]
+        cell.textLabel?.text = pictures[indexPath.row].fileName
         
         return cell
     }
@@ -52,6 +66,7 @@ class ViewController: UITableViewController {
         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
             // This sets selectedImage from the list of pictures on the view controller
             vc.selectedImage = pictures[indexPath.row]
+            vc.totalImages = pictures.count
             // This handles the navigation
             self.navigationController?.pushViewController(vc, animated: true)
         }
