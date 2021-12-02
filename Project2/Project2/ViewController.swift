@@ -21,6 +21,8 @@ class ViewController: UIViewController {
     
     var correctAnswer = 0
     
+    var totalQuestions = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         countries += ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigerai", "poland", "russia", "spain", "uk", "us"]
@@ -40,32 +42,65 @@ class ViewController: UIViewController {
         countries.shuffle()
         
         correctAnswer = Int.random(in: 0...2)
-        
-        self.title = countries[correctAnswer].uppercased()
-        
+                
         button1.setImage(UIImage(named: countries[0]), for: .normal)
         button2.setImage(UIImage(named: countries[1]), for: .normal)
         button3.setImage(UIImage(named: countries[2]), for: .normal)
+        
+        self.title = "Flag: \(self.countries[correctAnswer].uppercased()) | score: \(self.score)"
+        self.totalQuestions += 1
     }
 
     @IBAction func buttonTapped(_ sender: UIButton) {
-        var title: String
+        let isCorrect = sender.tag == correctAnswer
+        self.score += isCorrect ? 1 : -1
         
-        if sender.tag == correctAnswer {
-            title = "Correct"
-            score += 1
-        } else {
-            title = "Wrong"
-            score -= 1
+        
+        if !isCorrect {
+            
+            let alertControllerWrongAnswer = UIAlertController(title: "Wrong Answer", message: "Wrong! That’s the flag of \(countries[self.correctAnswer].countryCase)", preferredStyle: .alert)
+            alertControllerWrongAnswer.addAction(UIAlertAction(title: "Continue", style: .default))
+            
+            present(alertControllerWrongAnswer, animated: true)
         }
         
-        let ac = UIAlertController(title: title, message: "Your score is \(score)", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: { _ in self.askQuestion()}))
         
-        present(ac, animated: true)
+        if totalQuestions == 10 {
+            let ac = UIAlertController(title: "Final Score", message: "Your final score is \(score)", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: { _ in self.askQuestion()}))
+            
+            present(ac, animated: true)
+            self.totalQuestions = 0
+            self.score = 0
+        } else {
+            self.askQuestion()
+        }
         
+        
+        
+
     }
-    
     
 }
 
+extension String  {
+    var countryCase: String {
+        
+        // If it equals us or uk
+        // upper case the string
+        if self.count == 2 {
+            return self.uppercased()
+        }
+        
+        // Get the first letter and upper case it otherwise
+        // return blank string
+        let firstLetter =  self.first?.uppercased() ?? ""
+        var stringCopy = self
+        // remove first charcter
+        stringCopy.removeFirst()
+        
+        // This will turn SPAIN -> Spain or spain -> Spain
+        return "\(firstLetter)\(stringCopy.lowercased())"
+    }
+    
+}
