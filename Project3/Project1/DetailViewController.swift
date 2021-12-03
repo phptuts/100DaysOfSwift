@@ -40,6 +40,23 @@ class DetailViewController: UIViewController {
         // just for this screen because of the .never enum
         self.navigationItem.largeTitleDisplayMode = .never
 
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(sharedTapped))
+    }
+    
+    @objc func sharedTapped() {
+        
+        guard let image = imageView.image?.jpegData(compressionQuality: 0.8) else {
+            print("No image found")
+            return
+        }
+        
+        guard let name = selectedImage?.fileName else {
+            return
+        }
+        
+        let vc = UIActivityViewController(activityItems: [image, name], applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true)
     }
     
 
@@ -52,4 +69,5 @@ class DetailViewController: UIViewController {
         super.viewWillDisappear(animated)
         self.navigationController?.hidesBarsOnTap = false
     }
+
 }

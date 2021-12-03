@@ -43,8 +43,7 @@ class ViewController: UITableViewController {
             return a.number < b.number
         })
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share))
-
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -71,14 +70,6 @@ class ViewController: UITableViewController {
             // This handles the navigation
             self.navigationController?.pushViewController(vc, animated: true)
         }
-    }
-    
-    @objc func share() {
-        let vc = UIActivityViewController(activityItems: ["Checkout my amazing app!"], applicationActivities: [])
-        
-        vc.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
-        
-        present(vc, animated: true)
     }
 
 }

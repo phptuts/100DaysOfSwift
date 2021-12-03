@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     var totalQuestions = 0
     
     override func viewDidLoad() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(showScore))
         super.viewDidLoad()
         countries += ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigerai", "poland", "russia", "spain", "uk", "us"]
         button1.layer.borderWidth = 1
@@ -79,6 +80,14 @@ class ViewController: UIViewController {
         
         
 
+    }
+    
+    @objc func showScore() {
+        // this controls the alert
+        let ac = UIAlertController(title: "Score", message: "Your score is \(self.score)", preferredStyle: .alert)
+        // This controls the button
+        ac.addAction(UIAlertAction(title: "Continue", style: .default))
+        present(ac, animated: true)
     }
     
 }
