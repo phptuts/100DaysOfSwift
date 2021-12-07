@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class ViewController: UIViewController, WKNavigationDelegate {
+class SiteViewController: UIViewController, WKNavigationDelegate {
     
     var webView: WKWebView!
     
@@ -16,9 +16,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     var websites = ["apple.com", "hackingwithswift.com"]
     
+    var firstUrl: String!
+    
     
     override func loadView() {
         webView = WKWebView()
+        webView.showsLargeContentViewer = true
         webView.navigationDelegate = self
         view = webView
     }
@@ -30,18 +33,20 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let refresher = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
+        let back = UIBarButtonItem(barButtonSystemItem: .undo, target: webView, action: #selector(webView.goBack))
+        let forward = UIBarButtonItem(barButtonSystemItem: .redo, target: webView, action: #selector(webView.goForward))
 
         progressView = UIProgressView(progressViewStyle: .default)
         progressView.sizeToFit()
         
         let progressButton = UIBarButtonItem(customView: progressView)
         
-        self.toolbarItems = [progressButton, spacer, refresher]
+        self.toolbarItems = [progressButton, spacer, refresher, back, forward]
         self.navigationController?.isToolbarHidden = false
         
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
-        let url = URL(string: "https://" + websites[0])!
+        let url = URL(string: "https://" + firstUrl)!
         webView.load(URLRequest(url: url))
         webView.allowsBackForwardNavigationGestures = true
     }
@@ -52,6 +57,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
         for website in websites {
             ac.addAction(UIAlertAction(title: website, style: .default, handler: openPage))
         }
+        ac.addAction(UIAlertAction(title: "google.com", style: .default, handler: openPage))
+
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         // important for iPad
         ac.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
@@ -84,6 +91,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
                     return
                 }
             }
+            let ac = UIAlertController(title: "URL not allowed", message: "\(host) is not allow", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Continue", style: .cancel))
+            present(ac, animated: true)
         }
         
         decisionHandler(.cancel)
