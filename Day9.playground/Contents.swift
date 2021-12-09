@@ -86,10 +86,7 @@ struct User {
         // Practicing closures
         // with reduce which should do what joined does.  I could not get joined to work for some reason
         // Ask Jason about why joined did not work
-        return self.password.shuffled().reduce("", {
-            (acc: String, next: Character) in
-        return "\(acc)\(next)"
-})
+        return String(self.password.shuffled())
     }
     
     init(password: String, username: String) {
