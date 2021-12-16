@@ -9,10 +9,15 @@ import UIKit
 
 class ViewController: UITableViewController {
 
+    var originalPetitions = [Petition]()
     var petitions = [Petition]()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "credits", style: .plain, target: self, action: #selector(showCredits))
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "filter", style: .plain, target: self, action: #selector(filterAlert))
         // let urlString = "https://api.whitehouse.gov/v1/petitions.json?limit=100"
         let urlString: String
         
@@ -39,6 +44,13 @@ class ViewController: UITableViewController {
         
     }
     
+    @objc func showCredits() {
+        let ac = UIAlertController(title: "Credits", message: "We the people api", preferredStyle: .alert)
+        
+        ac.addAction(UIAlertAction(title: "Ok", style: .default))
+        present(ac, animated: true)
+    }
+    
     func showError() {
         let ac = UIAlertController(title: "Loading Error", message: "Could not load feed", preferredStyle: .alert)
         
@@ -51,7 +63,8 @@ class ViewController: UITableViewController {
         let decoder = JSONDecoder()
         
         if let jsonPetitions = try? decoder.decode(Petitions.self, from: json) {
-            petitions = jsonPetitions.results
+            originalPetitions = jsonPetitions.results
+            petitions = originalPetitions
             tableView.reloadData()
         }
     }
@@ -78,6 +91,38 @@ class ViewController: UITableViewController {
         vc.detialItem = petitions[indexPath.row]
         
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func filterAlert() {
+        let ac = UIAlertController(title: "Filter", message: "Filter Results", preferredStyle: .alert)
+        
+        ac.addTextField()
+        
+        ac.addAction(UIAlertAction(title: "filter", style: .default, handler: {
+            [weak self, weak ac] _ in
+            
+            if let filterText = ac?.textFields?.first?.text {
+                self?.filterResults(filterText: filterText)
+            }
+            
+        }))
+        
+        present(ac, animated: true)
+
+    }
+    
+    func filterResults(filterText: String) {
+        
+        if filterText.isEmpty {
+            petitions = originalPetitions
+            tableView.reloadData()
+            return
+        }
+        
+        petitions = originalPetitions.filter({
+            return $0.title.lowercased().contains(filterText.lowercased()) || $0.body.lowercased().contains(filterText.lowercased())
+        })
+        tableView.reloadData()
     }
 }
 
