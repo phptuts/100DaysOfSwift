@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         }
     }
     var level = 1
+    var correctCount = 0
     
     
     override func loadView() {
@@ -124,6 +125,8 @@ class ViewController: UIViewController {
                 letterButton.setTitle("WWW", for: .normal)
                 let frame = CGRect(x: column * width, y: row * height, width: width, height: height)
                 letterButton.frame = frame
+                letterButton.layer.borderColor = CGColor.init(red: 0, green: 0, blue: 0, alpha: 1)
+                letterButton.layer.borderWidth = 2
                 letterButton.addTarget(self, action: #selector(letterTapped), for: .touchUpInside)
                 buttonsView.addSubview(letterButton)
                 letterButtons.append(letterButton)
@@ -160,25 +163,45 @@ class ViewController: UIViewController {
             answersLabel.text = splitAnswers?.joined(separator: "\n")
             currentAnswer.text = ""
             score += 1
+            self.correctCount += 1
             
-            if score % 7 == 0 {
+            if self.correctCount % 7 == 0 {
                 let ac = UIAlertController(title: "Well Done", message: "Are you ready for the next level?", preferredStyle: .alert)
                 ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
                 
                 present(ac, animated: true)
-                
+                    
             }
+        } else {
+            score -= 1
+            let ac = UIAlertController(title: "Wrong Answer", message: "Please try again incorrect answer!", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: {
+                [weak self] _ in
+                
+                if var buttons = self?.activatedButtons {
+                    for button in buttons {
+                        button.isHidden = false
+                    }
+                    buttons.removeAll()
+                }
+                self?.currentAnswer.text = ""
+            }))
+            
+            present(ac, animated: true)
         }
     }
     
     func levelUp(_ action: UIAlertAction) {
         level += 1
         solutions.removeAll(keepingCapacity: true)
-        loadLevel()
         for button in letterButtons {
             button.isHidden = true
         }
+        loadLevel()
+        
     }
+    
+    
     
     @objc func clearTapped(_ sender: UIButton) {
         currentAnswer.text = ""
@@ -227,8 +250,10 @@ class ViewController: UIViewController {
         if letterButtons.count == letterBits.count {
             for i in 0..<letterButtons.count {
                 letterButtons[i].setTitle(letterBits[i], for: .normal)
+                letterButtons[i].isHidden = false
             }
         }
+        activatedButtons.removeAll()
     }
 }
 

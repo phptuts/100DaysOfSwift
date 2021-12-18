@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "ViewController.submitTapped(_:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "letterButtons[0].isHidden = false">
+            </PersistentString>
+            <PersistentString
+               value = "letterButtons">
+            </PersistentString>
+            <PersistentString
+               value = "letterButtons[0].isHidden">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.loadLevel():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "letterButtons.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
