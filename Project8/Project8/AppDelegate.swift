@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  Project7
+//  Project8
 //
-//  Created by Noah Glaser on 12/14/21.
+//  Created by Noah Glaser on 12/16/21.
 //
 
 import UIKit
@@ -10,16 +10,10 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    // original first entry point in the app
-    // It's like entry point or main
-    // It would like the index.php in a php framework
 
-    // This the entry point function
-    // bootstraping stuff with sdks
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        
-        
+        // Override point for customization after application launch.
         return true
     }
 
