@@ -44,8 +44,6 @@ class ViewController: UITableViewController {
         }
           
         performSelector(onMainThread: #selector(showError), with: nil, waitUntilDone: false)
-       showError()
-            
         
     }
     

@@ -17,6 +17,13 @@ class ViewController: UITableViewController {
         self.title = "Storm Viewer"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
+        performSelector(inBackground: #selector(loadListOfPictures), with: nil)
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share))
+
+    }
+    
+    @objc func loadListOfPictures() {
         let fm = FileManager.default
         // We can get away with force unwrapping because all iOS apps will have a resource path
         let path = Bundle.main.resourcePath!
@@ -42,9 +49,17 @@ class ViewController: UITableViewController {
         }).sorted(by: { a, b in
             return a.number < b.number
         })
+            
+        self.pictures = self.pictures.enumerated().map({ (index, pic) in
+            return (fileName: pic.fileName, number: index + 1)
+        })
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share))
-
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
+        // Ask JASON 1
+        // Why does this code not work
+//        self.tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: false)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
