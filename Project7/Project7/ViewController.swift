@@ -102,7 +102,7 @@ class ViewController: UITableViewController {
             [weak self, weak ac] _ in
             
             if let filterText = ac?.textFields?.first?.text {
-                self?.filterResults(filterText: filterText)
+                self?.performSelector(inBackground: #selector(self?.filterResults), with: filterText)
             }
             
         }))
@@ -111,7 +111,7 @@ class ViewController: UITableViewController {
 
     }
     
-    func filterResults(filterText: String) {
+    @objc func filterResults(filterText: String) {
         
         if filterText.isEmpty {
             petitions = originalPetitions
@@ -122,7 +122,10 @@ class ViewController: UITableViewController {
         petitions = originalPetitions.filter({
             return $0.title.lowercased().contains(filterText.lowercased()) || $0.body.lowercased().contains(filterText.lowercased())
         })
-        tableView.reloadData()
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 }
 
