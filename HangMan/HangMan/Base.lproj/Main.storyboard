@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="landscape" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="HangMan" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hang Man" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ek-Iz-iad">
+                                <rect key="frame" x="326.5" y="20" width="243.5" height="62.5"/>
+                                <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="50"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hangman0" translatesAutoresizingMaskIntoConstraints="NO" id="ds7-g4-MJf">
+                                <rect key="frame" x="74" y="88.5" width="209" height="216"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="209" id="2uc-Wp-Ke9"/>
+                                    <constraint firstAttribute="height" constant="216" id="58K-V0-Cl1"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ _ _ _ _ _ _ _ _" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOX-fs-b4G">
+                                <rect key="frame" x="333" y="170.5" width="354" height="52"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TSA-tL-Kn1">
+                                <rect key="frame" x="333" y="262.5" width="150" height="79"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Guess">
+                                    <fontDescription key="titleFontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="50"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="tappedGuess:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vxC-Wa-uf3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LPi-En-CZc">
+                                <rect key="frame" x="523" y="262.5" width="258.5" height="79"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title=" New Game">
+                                    <fontDescription key="titleFontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="50"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="tappedNewGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0s6-Ic-anE"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="LPi-En-CZc" firstAttribute="top" secondItem="TSA-tL-Kn1" secondAttribute="bottom" constant="46.5" id="4qs-W5-FxG"/>
+                            <constraint firstItem="TSA-tL-Kn1" firstAttribute="top" secondItem="FOX-fs-b4G" secondAttribute="bottom" constant="40" id="5CS-Sq-dgO"/>
+                            <constraint firstItem="ds7-g4-MJf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CzX-4S-8M1"/>
+                            <constraint firstItem="LPi-En-CZc" firstAttribute="leading" secondItem="TSA-tL-Kn1" secondAttribute="trailing" constant="40" id="E8Z-hx-VOB"/>
+                            <constraint firstItem="FOX-fs-b4G" firstAttribute="top" secondItem="ds7-g4-MJf" secondAttribute="bottom" constant="20" id="G0L-J2-d3j"/>
+                            <constraint firstItem="ds7-g4-MJf" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="JU8-FH-IS4"/>
+                            <constraint firstItem="TSA-tL-Kn1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="OYH-um-spv"/>
+                            <constraint firstItem="ds7-g4-MJf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QsC-Bl-vdj"/>
+                            <constraint firstItem="TSA-tL-Kn1" firstAttribute="leading" secondItem="ds7-g4-MJf" secondAttribute="trailing" constant="50" id="STs-ZH-kb0"/>
+                            <constraint firstItem="ds7-g4-MJf" firstAttribute="top" secondItem="1Ek-Iz-iad" secondAttribute="bottom" constant="20" id="Z30-oo-VpY"/>
+                            <constraint firstItem="ds7-g4-MJf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="b6y-wD-zMm"/>
+                            <constraint firstItem="ds7-g4-MJf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="cZj-FQ-5sC"/>
+                            <constraint firstItem="1Ek-Iz-iad" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="ckg-44-wJm"/>
+                            <constraint firstItem="FOX-fs-b4G" firstAttribute="centerY" secondItem="ds7-g4-MJf" secondAttribute="centerY" id="feK-sD-0Gj"/>
+                            <constraint firstItem="FOX-fs-b4G" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hNK-i8-kmp"/>
+                            <constraint firstItem="FOX-fs-b4G" firstAttribute="leading" secondItem="ds7-g4-MJf" secondAttribute="trailing" constant="50" id="lOc-3c-Ld6"/>
+                            <constraint firstItem="ds7-g4-MJf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="lWO-ir-fdU"/>
+                            <constraint firstItem="LPi-En-CZc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lqv-cP-pBa"/>
+                            <constraint firstItem="TSA-tL-Kn1" firstAttribute="top" secondItem="FOX-fs-b4G" secondAttribute="bottom" constant="40" id="opC-WX-mhD"/>
+                            <constraint firstItem="LPi-En-CZc" firstAttribute="top" secondItem="FOX-fs-b4G" secondAttribute="bottom" constant="40" id="ynB-TV-azh"/>
+                            <constraint firstItem="1Ek-Iz-iad" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zRU-Ff-M0a"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="CzX-4S-8M1"/>
+                                <exclude reference="JU8-FH-IS4"/>
+                                <exclude reference="QsC-Bl-vdj"/>
+                                <exclude reference="Z30-oo-VpY"/>
+                                <exclude reference="b6y-wD-zMm"/>
+                                <exclude reference="cZj-FQ-5sC"/>
+                                <exclude reference="lWO-ir-fdU"/>
+                                <exclude reference="G0L-J2-d3j"/>
+                                <exclude reference="feK-sD-0Gj"/>
+                                <exclude reference="hNK-i8-kmp"/>
+                                <exclude reference="lOc-3c-Ld6"/>
+                                <exclude reference="5CS-Sq-dgO"/>
+                                <exclude reference="OYH-um-spv"/>
+                                <exclude reference="STs-ZH-kb0"/>
+                                <exclude reference="4qs-W5-FxG"/>
+                                <exclude reference="E8Z-hx-VOB"/>
+                                <exclude reference="lqv-cP-pBa"/>
+                                <exclude reference="ynB-TV-azh"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=compact-widthClass=regular">
+                            <mask key="constraints">
+                                <include reference="JU8-FH-IS4"/>
+                                <exclude reference="QsC-Bl-vdj"/>
+                                <exclude reference="cZj-FQ-5sC"/>
+                                <include reference="lWO-ir-fdU"/>
+                                <include reference="feK-sD-0Gj"/>
+                                <include reference="lOc-3c-Ld6"/>
+                                <include reference="STs-ZH-kb0"/>
+                                <include reference="E8Z-hx-VOB"/>
+                                <include reference="ynB-TV-azh"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <exclude reference="CzX-4S-8M1"/>
+                                <include reference="Z30-oo-VpY"/>
+                                <include reference="b6y-wD-zMm"/>
+                                <include reference="G0L-J2-d3j"/>
+                                <include reference="hNK-i8-kmp"/>
+                                <include reference="5CS-Sq-dgO"/>
+                                <include reference="OYH-um-spv"/>
+                                <exclude reference="opC-WX-mhD"/>
+                                <include reference="4qs-W5-FxG"/>
+                                <include reference="lqv-cP-pBa"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="hangmanImage" destination="ds7-g4-MJf" id="lqe-5e-xE4"/>
+                        <outlet property="letterDisplayLabel" destination="FOX-fs-b4G" id="l6v-aC-aUf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="28.985507246376812" y="82.366071428571431"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="hangman0" width="209" height="216"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
