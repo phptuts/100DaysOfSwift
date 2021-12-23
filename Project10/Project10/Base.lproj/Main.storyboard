@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Testing-->
+        <!--Photo Tracker-->
         <scene sceneID="PXK-8w-xzr">
             <objects>
                 <collectionViewController id="tBV-Ve-RrZ" customClass="ViewController" customModule="Project10" customModuleProvider="target" sceneMemberID="viewController">
@@ -55,7 +55,7 @@
                             <outlet property="delegate" destination="tBV-Ve-RrZ" id="X3D-2h-6oF"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="Testing" id="KDN-yb-z72"/>
+                    <navigationItem key="navigationItem" title="Photo Tracker" id="KDN-yb-z72"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QBM-sP-ow4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
