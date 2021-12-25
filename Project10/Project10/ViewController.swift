@@ -41,6 +41,20 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let ac = UIAlertController(title: "Rename or Delete?", message: nil, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Rename", style: .default) {
+            [weak self] _ in
+            self?.renamePerson(indexPath)
+        })
+        ac.addAction(UIAlertAction(title: "Delete", style: .destructive) {
+            [weak self] _ in
+            self?.people.remove(at: indexPath.item)
+            self?.collectionView.deleteItems(at: [indexPath])
+        })
+        present(ac, animated: true)
+    }
+    
+    func renamePerson(_ indexPath: IndexPath) {
         let ac = UIAlertController(title: "Rename Person", message: nil, preferredStyle: .alert)
         ac.addTextField()
         ac.addAction(UIAlertAction(title: "OK", style: .default, handler: {
@@ -52,12 +66,18 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         }))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(ac, animated: true)
+
     }
     
     @objc func addNewPerson() {
         let picker = UIImagePickerController()
         picker.allowsEditing = true
         picker.delegate = self
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            picker.sourceType = .camera
+        }
+        
         present(picker, animated: true)
     }
     

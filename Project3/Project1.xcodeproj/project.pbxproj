@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F6641BC2776B80F005D13D5 /* Picture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6641BB2776B80F005D13D5 /* Picture.swift */; };
 		8F76B6AB2751FF1800792955 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F76B6AA2751FF1800792955 /* AppDelegate.swift */; };
 		8F76B6AD2751FF1800792955 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F76B6AC2751FF1800792955 /* SceneDelegate.swift */; };
 		8F76B6AF2751FF1800792955 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F76B6AE2751FF1800792955 /* ViewController.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8F6641BB2776B80F005D13D5 /* Picture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picture.swift; sourceTree = "<group>"; };
 		8F76B6A72751FF1800792955 /* Project1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F76B6AA2751FF1800792955 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F76B6AC2751FF1800792955 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 		8F76B6A92751FF1800792955 /* Project1 */ = {
 			isa = PBXGroup;
 			children = (
+				8F6641BB2776B80F005D13D5 /* Picture.swift */,
 				8F76B6AA2751FF1800792955 /* AppDelegate.swift */,
 				8F76B6AC2751FF1800792955 /* SceneDelegate.swift */,
 				8F76B6AE2751FF1800792955 /* ViewController.swift */,
@@ -190,6 +193,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F76B6AF2751FF1800792955 /* ViewController.swift in Sources */,
+				8F6641BC2776B80F005D13D5 /* Picture.swift in Sources */,
 				8F76B6AB2751FF1800792955 /* AppDelegate.swift in Sources */,
 				8F76B6AD2751FF1800792955 /* SceneDelegate.swift in Sources */,
 				8F76B6D42752E81C00792955 /* DetailViewController.swift in Sources */,

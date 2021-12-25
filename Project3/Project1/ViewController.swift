@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
+class ViewController: UICollectionViewController {
     
     var pictures = [(fileName: String, number: Int)]()
 
@@ -27,7 +27,7 @@ class ViewController: UITableViewController {
         // I filtered out all the non jpgs
         // I then map the filenames to the tuple and start 1
         // I then sort everything by the number
-        self.pictures = items
+        let sortedPics: [(fileName: String, number: Int)] = items
             .filter({item in item.hasPrefix("nssl")})
             .map({ name in
                 let numName = name
@@ -35,7 +35,7 @@ class ViewController: UITableViewController {
                     .replacingOccurrences(of: ".jpg", with: "")
                 // This should always work
                 if let fileNumber = Int(numName) {
-                    return (fileName: name, number: fileNumber - 32)
+                    return (fileName: name, number: fileNumber)
                 } else {
                     return (fileName: name, number: 1)
                 }
@@ -43,24 +43,37 @@ class ViewController: UITableViewController {
             return a.number < b.number
         })
         
+        pictures = sortedPics
+            .enumerated()
+            .map({ (index, item) in
+            return (fileName: item.fileName, number: index + 1)
+        })
+        
         
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return pictures.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Picture",for: indexPath)
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Picture", for: indexPath)
         
-        cell.textLabel?.text = pictures[indexPath.row].fileName
+            
+        
+        if let picCell = cell as? Picture {
+            picCell.picture.image = UIImage(named: pictures[indexPath.item].fileName)
+            picCell.name.text = "\(pictures[indexPath.item].number) Pic"
+            return picCell
+        }
+        
         
         return cell
+
     }
 
-    // This function is called when the user selects the a row in table view
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // This get detailed view controller from the storyboard using the
         // Detial identifier.  It actually creates one
         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
