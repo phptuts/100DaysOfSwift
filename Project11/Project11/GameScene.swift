@@ -9,8 +9,22 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    
+   
+    let ballImages = ["ballRed","ballBlue","ballGreen", "ballGrey", "ballPurple", "ballYellow"]
+
     var scoreLabel: SKLabelNode!
+    var ballsLabel: SKLabelNode!
+    var newGameLabel: SKLabelNode!
+
+    var ballCount = 5 {
+        didSet {
+            ballsLabel.text = "Balls Left: \(ballCount)"
+            if ballCount == 0 {
+                gameOverAlert()
+            }
+        }
+    }
+    
     
     var score = 0 {
         didSet {
@@ -19,12 +33,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     var editLabel: SKLabelNode!
-    var editingMode: Bool = false {
+    var editingMode: Bool = true {
         didSet {
             if editingMode {
-                editLabel.text = "Edit"
+                editLabel.text = "Start Dropping"
             } else {
-                editLabel.text = "Done"
+                editLabel.text = "Playing"
             }
         }
     }
@@ -46,9 +60,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.position = CGPoint(x: 980, y: 700)
         addChild(scoreLabel)
         
+        ballsLabel = SKLabelNode(fontNamed: "Chalkduster")
+        ballsLabel.text = "Balls Left: 5"
+        ballsLabel.horizontalAlignmentMode = .right
+        ballsLabel.position = CGPoint(x: 980, y: 650)
+        addChild(ballsLabel)
+        
+        newGameLabel = SKLabelNode(fontNamed: "Chalkduster")
+        newGameLabel.text = "New Game"
+        newGameLabel.horizontalAlignmentMode = .left
+        newGameLabel.position = CGPoint(x: 40, y: 700)
+        addChild(newGameLabel)
+
+        
         editLabel = SKLabelNode(fontNamed: "Chalkduster")
-        editLabel.text = "Done"
-        editLabel.position = CGPoint(x: 80, y: 700)
+        editLabel.text = "Start Dropping"
+        editLabel.horizontalAlignmentMode = .left
+        editLabel.position = CGPoint(x: 40, y: 650)
         addChild(editLabel)
         
         
@@ -78,32 +106,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let objects = nodes(at: location)
         
         if objects.contains(editLabel) {
-            editingMode.toggle()
-        } else {
-            
-            if editingMode {
-                let size = CGSize(width: Int.random(in: 16...128), height: 16)
-                let box = SKSpriteNode(color: UIColor(red: CGFloat.random(in: 0...1), green: CGFloat.random(in: 0...1), blue: CGFloat.random(in: 0...1), alpha: 1), size: size)
-                box.zRotation = CGFloat.random(in: 1...3)
-                box.position = location
-                box.physicsBody = SKPhysicsBody(rectangleOf: box.size)
-                box.physicsBody?.isDynamic = false
-                addChild(box)
-            } else {
-                //        let boxNode = SKSpriteNode(color: .red, size: CGSize(width: 64, height: 64))
-                //        boxNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 64, height: 64))
-                //        boxNode.position = location
-                //        addChild(boxNode)
-                        
-                let ball = SKSpriteNode(imageNamed: "ballRed")
-                ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2)
-                ball.physicsBody?.restitution = 0.9
-                ball.physicsBody?.contactTestBitMask = ball.physicsBody?.collisionBitMask ?? 0
-                ball.position = location
-                ball.name = "ball"
-                addChild(ball)
-            }
+            editingMode = false
+            return
         }
+        
+        if objects.contains(newGameLabel) {
+            newGame()
+            return
+        }
+            
+        if editingMode {
+            let size = CGSize(width: Int.random(in: 16...128), height: 16)
+            let box = SKSpriteNode(color: UIColor(red: CGFloat.random(in: 0...1), green: CGFloat.random(in: 0...1), blue: CGFloat.random(in: 0...1), alpha: 1), size: size)
+            box.name = "box"
+            box.zRotation = CGFloat.random(in: 1...3)
+            box.position = location
+            box.physicsBody = SKPhysicsBody(rectangleOf: box.size)
+            box.physicsBody?.isDynamic = false
+            addChild(box)
+            return
+        }
+        
+        
+        if isGameOver() {
+            gameOverAlert()
+            return
+        }
+        //        let boxNode = SKSpriteNode(color: .red, size: CGSize(width: 64, height: 64))
+        //        boxNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 64, height: 64))
+        //        boxNode.position = location
+        //        addChild(boxNode)
+                
+        let ball = SKSpriteNode(imageNamed: ballImages.randomElement() ?? "ballRed")
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2)
+        ball.physicsBody?.restitution = 0.9
+        ball.physicsBody?.contactTestBitMask = ball.physicsBody?.collisionBitMask ?? 0
+        ball.position = CGPoint(x: location.x, y:scoreLabel.position.y)
+        ball.name = "ball"
+        ballCount -= 1
+        addChild(ball)
+        
         
     }
     
@@ -149,13 +191,60 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if object.name == "good" {
             destroy(ball: ball)
             score += 1
+            if isGameOver() {
+                gameOverAlert()
+            }
         } else if object.name == "bad" {
             destroy(ball: ball)
             score -= 1
+            if isGameOver() {
+                gameOverAlert()
+            }
+        } else if object.name == "box" {
+            destroy(ball: object)
+            score += 10
+        }
+    }
+    
+    func newGame() {
+        scene?.children.filter { $0.name == "box" }.forEach {
+            $0.removeFromParent()
+        }
+        ballCount = 5
+        score = 0
+        editingMode = true
+    }
+    
+    func didWinGame() -> Bool {
+        return scene?.children.filter { $0.name == "box" }.count == 0
+    }
+    
+    func isGameOver() -> Bool {
+        return didWinGame() || ballCount == 0
+    }
+    
+    func gameOverAlert() {
+        
+        let didWin = didWinGame()
+        let message = "You \(didWin ? "won": "lost") the game"
+        let ac = UIAlertController(title: "Game Over", message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "New Game", style: .default, handler: {
+            [weak self] _ in
+            self?.newGame()
+        }))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        if let controller = view?.window?.rootViewController  {
+            controller.present(ac, animated: true)
         }
     }
     
     func destroy(ball: SKNode) {
+        
+        if let fireParticles = SKEmitterNode(fileNamed: "FireParticles") {
+            fireParticles.position = ball.position
+            addChild(fireParticles)
+        }
         ball.removeFromParent()
     }
     

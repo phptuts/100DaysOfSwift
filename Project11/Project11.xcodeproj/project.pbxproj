@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F50B9E0277A332900CDB9BE /* FireParticles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8F50B9DF277A332900CDB9BE /* FireParticles.sks */; };
 		8F6641CA27777FDE005D13D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6641C927777FDE005D13D5 /* AppDelegate.swift */; };
 		8F6641CC27777FDE005D13D5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8F6641CB27777FDE005D13D5 /* GameScene.sks */; };
 		8F6641D027777FDE005D13D5 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6641CF27777FDE005D13D5 /* GameScene.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8F50B9DF277A332900CDB9BE /* FireParticles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireParticles.sks; sourceTree = "<group>"; };
 		8F6641C627777FDE005D13D5 /* Project11.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project11.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F6641C927777FDE005D13D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F6641CB27777FDE005D13D5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 		8F6641C827777FDE005D13D5 /* Project11 */ = {
 			isa = PBXGroup;
 			children = (
+				8F50B9DF277A332900CDB9BE /* FireParticles.sks */,
 				8F6641C927777FDE005D13D5 /* AppDelegate.swift */,
 				8F6641CB27777FDE005D13D5 /* GameScene.sks */,
 				8F6641CF27777FDE005D13D5 /* GameScene.swift */,
@@ -234,6 +237,7 @@
 			files = (
 				8F6641D527777FDE005D13D5 /* Main.storyboard in Resources */,
 				8F6641CC27777FDE005D13D5 /* GameScene.sks in Resources */,
+				8F50B9E0277A332900CDB9BE /* FireParticles.sks in Resources */,
 				8F6641D727777FE5005D13D5 /* Assets.xcassets in Resources */,
 				8F6641DA27777FE5005D13D5 /* LaunchScreen.storyboard in Resources */,
 			);
