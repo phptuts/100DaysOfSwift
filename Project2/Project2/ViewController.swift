@@ -67,10 +67,22 @@ class ViewController: UIViewController {
         
         
         if totalQuestions == 10 {
-            let ac = UIAlertController(title: "Final Score", message: "Your final score is \(score)", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: { _ in self.askQuestion()}))
             
+            let defaults = UserDefaults.standard
+            
+            let currentHighScore = defaults.integer(forKey: "highscore")
+            let title: String
+            if currentHighScore < score {
+                title = "High Score"
+                defaults.set(score, forKey: "highscore")
+            } else {
+                title = "Your Score"
+            }
+            
+            let ac = UIAlertController(title: title, message: "Your final score is \(score)", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: { _ in self.askQuestion()}))
             present(ac, animated: true)
+            
             self.totalQuestions = 0
             self.score = 0
         } else {

@@ -31,7 +31,16 @@ class ViewController: UITableViewController {
             allWords = ["silkworms"]
         }
         
-        startGame()
+        let defaults = UserDefaults.standard
+        
+        if defaults.bool(forKey: "saved") {
+            startGame()
+        } else {
+            usedWords = defaults.stringArray(forKey: "used_words") ?? []
+            title = defaults.string(forKey: "selected_word") ?? allWords.randomElement()
+        }
+        
+        
     }
 
 
@@ -40,6 +49,10 @@ class ViewController: UITableViewController {
         title = allWords.randomElement()
         usedWords.removeAll(keepingCapacity: true)
         tableView.reloadData()
+        let defaults = UserDefaults.standard
+        defaults.set(false, forKey: "saved")
+        defaults.set(title, forKey: "selected_word")
+        defaults.set([], forKey: "used_words")
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -90,7 +103,8 @@ class ViewController: UITableViewController {
                     usedWords.insert(answer.lowercased(), at: 0)
                     let indexPath = IndexPath(row: 0, section: 0)
                     tableView.insertRows(at: [indexPath], with: .automatic)
-                    
+                    let defaults = UserDefaults.standard
+                    defaults.set(usedWords, forKey: "used_words")
                     return
                 } else {
                     showErrorMessage(title: "Word not recognized", message: "You can't just make them up, you know!")

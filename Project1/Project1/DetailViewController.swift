@@ -10,7 +10,7 @@ import UIKit
 class DetailViewController: UIViewController {
     
     
-    var selectedImage: (fileName: String, number: Int)?
+    var selectedImage: StormPicture?
     
     var totalImages: Int?
     
@@ -19,7 +19,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let pictureNumber = selectedImage?.number else {
+        guard let pictureNumber = selectedImage?.picNumber else {
             return
         }
         
