@@ -23,7 +23,31 @@ class ViewController: UITableViewController {
         } else {
             urlString = "https://www.hackingwithswift.com/samples/petitions-2.json"
         }
-        performSelector(inBackground: #selector(fetchJSON), with: urlString)
+        
+        DispatchQueue.global(qos: .default).async {
+            [weak self]  in
+                self?.fetchJSON(urlString)
+        }
+        
+        DispatchQueue.global(qos: .background).async {
+                print("hello")
+        }
+        DispatchQueue.global(qos: .default).async {
+                print("hello")
+        }
+        DispatchQueue.global(qos: .userInitiated).async {
+                print("hello")
+        }
+        DispatchQueue.global(qos: .userInteractive).async {
+                print("hello")
+        }
+        DispatchQueue.global(qos: .utility).async {
+                print("hello")
+        }
+        DispatchQueue.main.async {
+                print("hello")
+        }
+        // performSelector(inBackground: #selector(fetchJSON), with: 27)
     }
     
     @objc func fetchJSON(_ urlString: String) {
