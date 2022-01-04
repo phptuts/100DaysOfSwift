@@ -16,6 +16,7 @@
 		8F66422027815511005D13D5 /* Project13Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F66421F27815511005D13D5 /* Project13Tests.swift */; };
 		8F66422A27815511005D13D5 /* Project13UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F66422927815511005D13D5 /* Project13UITests.swift */; };
 		8F66422C27815511005D13D5 /* Project13UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F66422B27815511005D13D5 /* Project13UITestsLaunchTests.swift */; };
+		8FF5B85227841C64003A01AE /* FilterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF5B85127841C64003A01AE /* FilterState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		8F66422527815511005D13D5 /* Project13UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Project13UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F66422927815511005D13D5 /* Project13UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project13UITests.swift; sourceTree = "<group>"; };
 		8F66422B27815511005D13D5 /* Project13UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project13UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8FF5B85127841C64003A01AE /* FilterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				8F66421127815511005D13D5 /* Assets.xcassets */,
 				8F66421327815511005D13D5 /* LaunchScreen.storyboard */,
 				8F66421627815511005D13D5 /* Info.plist */,
+				8FF5B85127841C64003A01AE /* FilterState.swift */,
 			);
 			path = Project13;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				8F66420D2781550A005D13D5 /* ViewController.swift in Sources */,
 				8F6642092781550A005D13D5 /* AppDelegate.swift in Sources */,
 				8F66420B2781550A005D13D5 /* SceneDelegate.swift in Sources */,
+				8FF5B85227841C64003A01AE /* FilterState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
