@@ -11,6 +11,8 @@ class GameScene: SKScene {
     
     var popupTime = 0.85
     
+    var numRounds = 0
+    
     var gameScore: SKLabelNode!
     
     var slots = [WhackSlot]()
@@ -61,7 +63,37 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        let location = touch.location(in: self)
+        let tappedNodes = nodes(at: location)
         
+        for node in tappedNodes {
+            
+            guard let whackSlot = node.parent?.parent as? WhackSlot else {
+                continue
+            }
+            
+            if !whackSlot.isVisible { continue }
+            if whackSlot.isHit { continue }
+            whackSlot.hit()
+            if let smokeEmitter = SKEmitterNode(fileNamed: "smoke") {
+                smokeEmitter.zPosition = 2
+                smokeEmitter.position = location
+                addChild(smokeEmitter)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    smokeEmitter.removeFromParent()
+                }
+            }
+            if node.name == "charFriend" {
+                score -= 5
+                run(SKAction.playSoundFileNamed("whackBad.caf", waitForCompletion: false))
+            } else if node.name == "charEnemy" {
+                whackSlot.charNode.xScale = 0.85
+                whackSlot.charNode.yScale = 0.85
+                score += 1
+                run(SKAction.playSoundFileNamed("whack.caf", waitForCompletion: false))
+            }
+        }
     }
     
     func createSlot(at position: CGPoint) {
@@ -72,6 +104,28 @@ class GameScene: SKScene {
     }
     
     func createEnemy() {
+        
+        numRounds += 1
+        if numRounds >= 15 {
+            for slot in slots {
+                slot.hide()
+                let gameover = SKSpriteNode(imageNamed: "gameOver")
+                gameover.position = CGPoint(x: 512, y: 384)
+                gameover.zPosition = 1
+                
+                let label = SKLabelNode(fontNamed: "chalkduster")
+                label.position = CGPoint(x: 512, y: 300)
+                label.zPosition = 1
+                label.fontSize = 30
+                label.text = "Final Score \(score)"
+                addChild(label)
+                
+                addChild(gameover)
+                run(SKAction.playSoundFileNamed("gameover.m4a", waitForCompletion: false))
+                return
+            }
+        }
+        
         popupTime *= 0.991
         
         
