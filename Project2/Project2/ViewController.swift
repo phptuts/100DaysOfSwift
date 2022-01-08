@@ -47,6 +47,10 @@ class ViewController: UIViewController {
         button1.setImage(UIImage(named: countries[0]), for: .normal)
         button2.setImage(UIImage(named: countries[1]), for: .normal)
         button3.setImage(UIImage(named: countries[2]), for: .normal)
+        button1.transform = CGAffineTransform(scaleX: 1, y: 1)
+        button2.transform = CGAffineTransform(scaleX: 1, y: 1)
+        button3.transform = .identity
+
         
         self.title = "Flag: \(self.countries[correctAnswer].uppercased()) | score: \(self.score)"
         self.totalQuestions += 1
@@ -54,9 +58,17 @@ class ViewController: UIViewController {
 
     @IBAction func buttonTapped(_ sender: UIButton) {
         let isCorrect = sender.tag == correctAnswer
+        
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 10, options: [], animations: {
+            sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        }) { [weak self] _ in
+            self?.updateScore(isCorrect: isCorrect)
+        }
+
+    }
+    
+    func updateScore(isCorrect: Bool) {
         self.score += isCorrect ? 1 : -1
-        
-        
         if !isCorrect {
             
             let alertControllerWrongAnswer = UIAlertController(title: "Wrong Answer", message: "Wrong! That’s the flag of \(countries[self.correctAnswer].countryCase)", preferredStyle: .alert)
@@ -88,10 +100,6 @@ class ViewController: UIViewController {
         } else {
             self.askQuestion()
         }
-        
-        
-        
-
     }
     
     @objc func showScore() {
