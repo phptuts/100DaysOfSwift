@@ -59,6 +59,40 @@
             </objects>
             <point key="canvasLocation" x="28.985507246376812" y="69.642857142857139"/>
         </scene>
+        <!--Web View Controller-->
+        <scene sceneID="kbz-2P-lzH">
+            <objects>
+                <viewController storyboardIdentifier="webview" id="4Bt-3v-1Gi" customClass="WebViewController" customModule="Project16" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vNQ-N4-fKg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bg5-do-lKa">
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="taX-1i-i8Q"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="bg5-do-lKa" firstAttribute="centerX" secondItem="vNQ-N4-fKg" secondAttribute="centerX" id="2SB-c3-5p6"/>
+                            <constraint firstItem="bg5-do-lKa" firstAttribute="leading" secondItem="taX-1i-i8Q" secondAttribute="leading" id="Dvh-B7-gYS"/>
+                            <constraint firstItem="bg5-do-lKa" firstAttribute="top" secondItem="taX-1i-i8Q" secondAttribute="top" id="NHl-9j-YxU"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="bg5-do-lKa" secondAttribute="bottom" constant="-34" id="PF0-ve-maN"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="bg5-do-lKa" id="Oie-6f-QKk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="my7-Sr-HkS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1715.9420289855075" y="69.642857142857139"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">
