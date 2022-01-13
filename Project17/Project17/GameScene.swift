@@ -18,13 +18,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var gameTimer: Timer?
     
-    var isGameOver = false
+    var isGameOver = false {
+        didSet {
+            gameTimer?.invalidate()
+        }
+    }
+    
+    var enemyTime = 0.9
+    
+    var enemyCount = 0 {
+        didSet {
+            if enemyCount % 20 == 0 && enemyCount > 0 {
+                enemyTime -= 0.1
+                gameTimer?.invalidate()
+                gameTimer = Timer.scheduledTimer(timeInterval: enemyTime, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+
+            }
+        }
+    }
     
     var score = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
         }
     }
+    
+    var canMove = false
     
     override func didMove(to view: SKView) {
         scaleMode = .aspectFit
@@ -42,7 +61,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(player)
         
         scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
-        scoreLabel.position = CGPoint(x: 90, y: 16)
+        scoreLabel.position = CGPoint(x: 200, y: 16)
         addChild(scoreLabel)
         
         score = 0
@@ -50,7 +69,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
         
-        gameTimer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+        gameTimer = Timer.scheduledTimer(timeInterval: enemyTime, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -65,10 +84,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        
+        let location = touch.location(in: self)
+
+        canMove = player.contains(location)
+    }
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        if !canMove {
+            return
+        }
+        
         guard let touch = touches.first else { return }
         
         var location = touch.location(in: self)
+        
         
         if location.y < 100 {
             location.y = 100
@@ -88,8 +121,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     @objc func createEnemy() {
-        guard let enemy = possibleEnemies.randomElement() else { return }
         
+        if isGameOver {
+            return
+        }
+        
+        guard let enemy = possibleEnemies.randomElement() else { return }
+
         let sprite = SKSpriteNode(imageNamed: enemy)
         sprite.position = CGPoint(x: 1200, y: Int.random(in: 50...736))
         addChild(sprite)
@@ -99,7 +137,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sprite.physicsBody?.angularVelocity = 5
         sprite.physicsBody?.linearDamping = 0
         sprite.physicsBody?.angularDamping = 0
-        
-        
+        enemyCount += 1
     }
 }
