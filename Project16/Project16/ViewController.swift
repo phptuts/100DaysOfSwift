@@ -26,6 +26,26 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
     }
     
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+//        print("\(#function)")
+        mapView.annotations.forEach { annotation in
+            guard let capital = annotation as? Capital else { return  }
+            capital.isVisible = mapView.visibleMapRect.contains(MKMapPoint.init(capital.coordinate))
+
+            if let view = mapView.view(for: annotation) as? MKPinAnnotationView {
+                if capital.hasBeenSeen && view.pinTintColor == .systemOrange {
+                    mapView.removeAnnotation(capital)
+                    mapView.addAnnotation(capital)
+                } else if !capital.hasBeenSeen && view.pinTintColor == .systemPurple {
+                    mapView.removeAnnotation(capital)
+                    mapView.addAnnotation(capital)
+                }
+            }
+            
+        }
+        
+    }
+    
     @objc func changeMap() {
         let ac = UIAlertController(title: "Change Map", message: nil, preferredStyle: .actionSheet)
         ac.addAction(UIAlertAction(title: "Satelite", style: .default, handler: changeMapStyle))
@@ -47,20 +67,20 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard annotation is Capital else { return nil }
+        guard let captial = annotation as? Capital else { return nil }
         
         let identifier = "Capital"
         if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
             annotationView.annotation = annotation
-            annotationView.pinTintColor = UIColor.purple
+            annotationView.pinTintColor = captial.hasBeenSeen ? .systemPurple : .systemOrange
             return annotationView
 
         } else {
-            let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            let annotationView = MKPinAnnotationView(annotation: captial, reuseIdentifier: identifier)
             annotationView.canShowCallout = true
             let btn = UIButton(type: .detailDisclosure)
+            annotationView.pinTintColor = captial.hasBeenSeen ? .systemPurple : .systemOrange
             annotationView.rightCalloutAccessoryView = btn
-            annotationView.pinTintColor = .systemOrange
             return annotationView
         }
     }
