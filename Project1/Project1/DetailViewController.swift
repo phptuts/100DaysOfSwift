@@ -18,7 +18,7 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        assert(selectedImage != nil)
         guard let pictureNumber = selectedImage?.picNumber else {
             return
         }
