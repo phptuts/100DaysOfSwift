@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "GameScene.checkTouches(_:):GameScene.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "children[3]">
+            </PersistentString>
+            <PersistentString
+               value = "children[3].position">
+            </PersistentString>
+            <PersistentString
+               value = "children[3].">
+            </PersistentString>
+            <PersistentString
+               value = "children[3].name">
+            </PersistentString>
+            <PersistentString
+               value = "children">
+            </PersistentString>
+            <PersistentString
+               value = "children[3].parent">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
