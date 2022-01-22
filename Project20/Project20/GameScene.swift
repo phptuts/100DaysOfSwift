@@ -110,7 +110,6 @@ class GameScene: SKScene {
         tries -= 1
         let movementAmount: CGFloat = 1800
         let fireworkMovement = Int.random(in: 0...3)
-        print(fireworkMovement)
         switch fireworkMovement {
         case 0:
             // fire five straigt up
@@ -151,6 +150,7 @@ class GameScene: SKScene {
     
     func newGame() {
         tries = 5
+        score = 0
         gameTime = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(launchFireworks), userInfo: nil, repeats: true)
     }
     
