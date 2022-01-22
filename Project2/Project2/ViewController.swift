@@ -6,15 +6,16 @@
 //
 
 import UIKit
+import UserNotifications
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 
     @IBOutlet var button1: UIButton!
     
     @IBOutlet var button2: UIButton!
     
     @IBOutlet var button3: UIButton!
-    
+        
     var countries = [String]()
     
     var score = 0
@@ -25,6 +26,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(showScore))
+        
         super.viewDidLoad()
         countries += ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigerai", "poland", "russia", "spain", "uk", "us"]
         button1.layer.borderWidth = 1
@@ -34,9 +36,41 @@ class ViewController: UIViewController {
         button1.layer.borderColor = UIColor.lightGray.cgColor
         button2.layer.borderColor = UIColor.lightGray.cgColor
         button3.layer.borderColor = UIColor.lightGray.cgColor
-
+        let center = UNUserNotificationCenter.current()
+        
+        center.requestAuthorization(options: [.alert, .badge, .sound]) {
+            [weak self] granted, error in
+            if granted {
+                center.removeAllPendingNotificationRequests()
+                self?.scheduleNotifications()
+            }
+        }
         
         askQuestion()
+    }
+    
+
+    
+    
+    
+    
+    
+    
+    func scheduleNotifications() {
+        let center = UNUserNotificationCenter.current()
+
+        for i in 1...7 {
+            let content = UNMutableNotificationContent()
+            content.title = "Play Flag Game"
+            content.body = "Please play the awesome flag game!"
+            content.categoryIdentifier = "flag_game_reminder"
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Double(10 * i), repeats: false)
+            
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            
+            center.add(request)
+        }
     }
     
     func askQuestion() {
