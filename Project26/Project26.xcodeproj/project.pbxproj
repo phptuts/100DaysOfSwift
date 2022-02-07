@@ -18,6 +18,7 @@
 		8F9D0FD927AF367100F3F51A /* Project26UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9D0FD827AF367100F3F51A /* Project26UITests.swift */; };
 		8F9D0FDB27AF367100F3F51A /* Project26UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9D0FDA27AF367100F3F51A /* Project26UITestsLaunchTests.swift */; };
 		8F9D0FEA27AF384700F3F51A /* level1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8F9D0FE927AF384700F3F51A /* level1.txt */; };
+		8F9D0FEE27B09D3200F3F51A /* level-random.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8F9D0FED27B09D3200F3F51A /* level-random.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		8F9D0FD827AF367100F3F51A /* Project26UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project26UITests.swift; sourceTree = "<group>"; };
 		8F9D0FDA27AF367100F3F51A /* Project26UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project26UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		8F9D0FE927AF384700F3F51A /* level1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = level1.txt; sourceTree = "<group>"; };
+		8F9D0FED27B09D3200F3F51A /* level-random.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "level-random.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			children = (
 				8F9D0FB427AF366E00F3F51A /* AppDelegate.swift */,
 				8F9D0FE927AF384700F3F51A /* level1.txt */,
+				8F9D0FED27B09D3200F3F51A /* level-random.txt */,
 				8F9D0FB627AF366F00F3F51A /* GameScene.sks */,
 				8F9D0FBA27AF366F00F3F51A /* GameScene.swift */,
 				8F9D0FBC27AF366F00F3F51A /* GameViewController.swift */,
@@ -235,6 +238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F9D0FEE27B09D3200F3F51A /* level-random.txt in Resources */,
 				8F9D0FEA27AF384700F3F51A /* level1.txt in Resources */,
 				8F9D0FC027AF366F00F3F51A /* Main.storyboard in Resources */,
 				8F9D0FB727AF366F00F3F51A /* GameScene.sks in Resources */,
