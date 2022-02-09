@@ -30,8 +30,24 @@ class DetailViewController: UIViewController {
         guard let totalPics = totalImages else {
             return
         }
+        guard let originalImage = UIImage(named: fileName) else { fatalError("Original Image does not exist")}
+
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: originalImage.size.width, height: originalImage.size.height))
+        let image = renderer.image { ctx in
+            originalImage.draw(at: CGPoint(x: 0, y: 0))
+
+           
+            
+            let attrs: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: 30),
+            ]
+            let string = "From Storm Viewer"
+            let attributedString = NSAttributedString(string: string, attributes: attrs)
+            attributedString.draw(with: CGRect(x: 300, y: 50, width: originalImage.size.width - 30, height: 50), options: .usesLineFragmentOrigin, context: nil)
+            
+        }
+        imageView.image = image
         
-        imageView.image = UIImage(named: fileName)
         
         // Title is title on the nav bar
         // title is optional string which is why we don't have to unwrap

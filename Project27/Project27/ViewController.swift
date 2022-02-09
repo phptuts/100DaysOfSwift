@@ -16,21 +16,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        drawRectange()
+        drawTwin()
     }
 
     @IBAction func redrawTapped(_ sender: Any) {
         currentDrawType += 1
         
-        if currentDrawType == 6 {
+        if currentDrawType == 8 {
             currentDrawType = 0
         }
         
         switch currentDrawType {
         case 0:
-            drawRectange()
+            drawTwin()
         case 1:
-            drawCircle()
+            drawStar()
         case 2:
             drawCheckerboard()
         case 3:
@@ -39,9 +39,102 @@ class ViewController: UIViewController {
             drawLines()
         case 5:
             drawImagesAndText()
+        case 6:
+            drawCircle()
+        case 7:
+            drawRectange()
         default:
             break
         }
+    }
+    
+    func drawStar() {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        let image = renderer.image { ctx in
+            
+            let moveUp = -50
+            ctx.cgContext.move(to: CGPoint(x: 100, y: 400 + moveUp))
+
+            ctx.cgContext.setFillColor(UIColor.yellow.cgColor)
+
+            ctx.cgContext.addLine(to: CGPoint(x: 250, y: 100 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 400, y: 400 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 100, y: 400 + moveUp))
+            ctx.cgContext.fillPath()
+
+            ctx.cgContext.move(to: CGPoint(x: 100, y: 200 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 400, y: 200 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 250, y: 500 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 100, y: 200 + moveUp))
+            ctx.cgContext.fillPath()
+
+
+        }
+        imageView.image = image
+
+    }
+    
+    func drawTwin() {
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        let image = renderer.image { ctx in
+            
+            let moveUp = 0
+            // T
+            ctx.cgContext.move(to: CGPoint(x: 50, y: 50 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 100, y: 50 + moveUp))
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+            
+            ctx.cgContext.move(to: CGPoint(x: 75, y: 50 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 75, y: 100 + moveUp))
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+
+            // W
+            ctx.cgContext.move(to: CGPoint(x: 125, y: 50 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 135, y: 100 + moveUp))
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+            
+            ctx.cgContext.move(to: CGPoint(x: 135, y: 100 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 145, y: 75 + moveUp))
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+            
+            ctx.cgContext.move(to: CGPoint(x: 145, y: 75 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 155, y: 100 + moveUp))
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+            
+            ctx.cgContext.move(to: CGPoint(x: 155, y: 100  + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 165, y: 50 + moveUp))
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+            
+            // I
+            ctx.cgContext.move(to: CGPoint(x: 190, y: 50 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 190, y: 100 + moveUp))
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+
+            // N
+            ctx.cgContext.move(to: CGPoint(x: 215, y: 50 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 215, y: 100 + moveUp))
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+            
+            ctx.cgContext.move(to: CGPoint(x: 215, y: 50 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 240, y: 100 + moveUp))
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+            
+            ctx.cgContext.move(to: CGPoint(x: 240, y: 50 + moveUp))
+            ctx.cgContext.addLine(to: CGPoint(x: 240, y: 100 + moveUp))
+            ctx.cgContext.setStrokeColor(UIColor.black.cgColor)
+            ctx.cgContext.strokePath()
+        }
+        imageView.image = image
+
     }
     
     func drawLines() {
