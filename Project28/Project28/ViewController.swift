@@ -13,6 +13,9 @@ class ViewController: UIViewController {
     @IBOutlet var secret: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveSecretMessage))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(savePassword))
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
@@ -35,21 +38,77 @@ class ViewController: UIViewController {
                     }
                 } else {
                     DispatchQueue.main.async {
+                        [weak self] in
                         let ac = UIAlertController(title: "Auth Failed", message: "You could not be verified", preferredStyle: .alert)
-                        ac.addAction(UIAlertAction(title: "OK", style: .default))
+                        ac.addAction(UIAlertAction(title: "OK", style: .default) {
+                            [weak self] _ in
+                            let ac = UIAlertController(title: "Auth Failed Enter Password", message: nil, preferredStyle: .alert)
+                            ac.addTextField()
+                            ac.addAction(UIAlertAction(title: "Submit", style: .default, handler: {
+                                [weak ac, weak self] _ in
+                                guard let password = ac?.textFields?.first?.text else { return }
+                                let currentPassword = KeychainWrapper.standard.string(forKey: "password")
+                                
+                                if currentPassword != nil && password == currentPassword {
+                                    self?.unlockSecretMessage()
+                                } else {
+                                    self?.showSimpleAlert(title: "Password Auth Failed", message: nil)
+                                }
+
+                            }))
+                            
+                            self?.present(ac, animated: true)
+                        })
                         self?.present(ac, animated: true)
                     }
                 }
             }
         } else {
             // no access to device
-            let ac = UIAlertController(title: "Biometry Unvailable", message: "Your device is not configured for biometric auth", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default))
-            present(ac, animated: true)
+            showSimpleAlert(title: "Biometry Unvailable", message: "Your device is not configured for biometric auth")
 
         }
                         
     }
+    
+    func showSimpleAlert(title: String, message: String?) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+
+    }
+    
+    
+    @objc func savePassword() {
+        let context = LAContext()
+        var error: NSError?
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Save password"
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) {
+                [weak self]  success, authenticationError in
+                if success {
+                    DispatchQueue.main.async {
+                        let ac = UIAlertController(title: "Save Password", message: nil, preferredStyle: .alert)
+                        ac.addTextField()
+                        ac.addAction(UIAlertAction(title: "Save", style: .default) {
+                           [weak ac] _ in
+                            guard let password = ac?.textFields?.first?.text else { return }
+                            KeychainWrapper.standard.set(password, forKey: "password")
+                        })
+                        self?.present(ac, animated: true)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        let ac = UIAlertController(title: "Auth Failed", message: "You could not be verified", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "OK", style: .default))
+                        self?.present(ac, animated: true)
+                    }
+                }
+            }
+        }
+    }
+    
+    
     
     @objc func adjustForKeyboard(notification: Notification) {
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else  {
