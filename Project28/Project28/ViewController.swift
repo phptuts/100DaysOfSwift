@@ -34,9 +34,11 @@ class ViewController: UIViewController {
                         self?.unlockSecretMessage()
                     }
                 } else {
-                    let ac = UIAlertController(title: "Auth Failed", message: "You could not be verified", preferredStyle: .alert)
-                    ac.addAction(UIAlertAction(title: "OK", style: .default))
-                    self?.present(ac, animated: true)
+                    DispatchQueue.main.async {
+                        let ac = UIAlertController(title: "Auth Failed", message: "You could not be verified", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "OK", style: .default))
+                        self?.present(ac, animated: true)
+                    }
                 }
             }
         } else {
@@ -53,35 +55,47 @@ class ViewController: UIViewController {
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else  {
             return
         }
+        DispatchQueue.main.async {
+            [weak self] in
+            guard let strongSelf = self else { return }
+
+        
         let keyboardScreenEnd = keyboardValue.cgRectValue
-        let keyboardViewEndFrame = view.convert(keyboardScreenEnd, from: view.window)
+            let keyboardViewEndFrame = strongSelf.view.convert(keyboardScreenEnd, from: strongSelf.view.window)
         
-        if notification.name == UIResponder.keyboardWillHideNotification {
-            secret.contentInset = .zero
-        } else {
-            secret.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
+            if notification.name == UIResponder.keyboardWillHideNotification {
+                strongSelf.secret.contentInset = .zero
+            } else {
+                strongSelf.secret.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - strongSelf.view.safeAreaInsets.bottom , right: 0)
+                
+            }
             
+            strongSelf.secret.scrollIndicatorInsets = strongSelf.secret.contentInset
+            let selectedRange = strongSelf.secret.selectedRange
+            strongSelf.secret.scrollRangeToVisible(selectedRange)
         }
-        
-        secret.scrollIndicatorInsets = secret.contentInset
-        let selectedRange = secret.selectedRange
-        secret.scrollRangeToVisible(selectedRange)
     }
     
     
     func unlockSecretMessage() {
-        secret.isHidden = false
-        title = "Secret Stuff"
-        secret.text = KeychainWrapper.standard.string(forKey: "Secret Message") ?? ""
+        DispatchQueue.main.async {
+            [weak self] in
+            self?.secret.isHidden = false
+            self?.title = "Secret Stuff"
+            self?.secret.text = KeychainWrapper.standard.string(forKey: "Secret Message") ?? ""
+        }
     }
     
     @objc func saveSecretMessage() {
-        guard secret.isHidden == false else { return }
-        
-        KeychainWrapper.standard.set(secret.text, forKey: "Secret Message")
-        secret.resignFirstResponder()
-        secret.isHidden = true
-        title = "Nothing to see here"
+        DispatchQueue.main.async {
+            [weak self] in
+            guard self?.secret.isHidden == false else { return }
+            
+            KeychainWrapper.standard.set(self?.secret.text ?? "", forKey: "Secret Message")
+            self?.secret.resignFirstResponder()
+            self?.secret.isHidden = true
+            self?.title = "Nothing to see here"
+        }
     }
     
     
