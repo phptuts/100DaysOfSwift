@@ -31,6 +31,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
     }
     
+    func newGravity() {
+        let degree = Int.random(in: 180...359);
+        let radiansRandom = deg2rad(deg: degree)
+        let windSpeedDouble = Double(Int.random(in: 1...3))
+         
+        physicsWorld.gravity =  CGVector(dx: cos(radiansRandom) * windSpeedDouble, dy: sin(radiansRandom) * windSpeedDouble - 9.81)
+        
+        self.viewController?.updateWindLabel(speed: Int(windSpeedDouble * 10), angle: degree)
+    }
+    
     func createBuildings() {
         var currentX = CGFloat(-15)
         
@@ -166,12 +176,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         banana.removeFromParent()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            
+            self.viewController?.winRound(player: self.currentPlayer)
+            
+            if self.viewController?.level ?? 0 == 3 {
+                self.viewController?.gameOver()
+                return
+            }
+            
+            // This has to be below the the increment level so we don't
+            // trigger the game over all level 3
+            self.viewController?.nextLevel()
+            
             let newGame = GameScene(size: self.size)
             newGame.viewController = self.viewController
             self.viewController?.currentGame = newGame
             
             self.changePlayer()
             newGame.currentPlayer = self.currentPlayer
+            newGame.newGravity()
             
             let transition = SKTransition.doorway(withDuration: 1.5)
             self.view?.presentScene(newGame, transition: transition)
